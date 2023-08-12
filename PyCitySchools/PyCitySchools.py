@@ -1,4 +1,4 @@
-import numpy as np, pandas as pd
+import pandas as pd
 from pathlib import Path
 
 # File to Load (Remember to Change These)
@@ -13,7 +13,7 @@ student_data = pd.read_csv(student_data_to_load)
 school_data_complete = pd.merge(student_data, school_data, how="left", on=["school_name", "school_name"])
 Total_Schools = len(school_data_complete["school_name"].unique())
 Total_Students = len(school_data_complete["student_name"])
-Total_Budget = (pd.pivot_table(school_data_complete, values='budget', index='School ID', aggfunc = np.max)).sum()[0] # Reference for pivot_table: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot_table.html
+Total_Budget = (school_data_complete.groupby("school_name")["budget"].max()).sum()
 Average_Maths_Score = school_data_complete["maths_score"].mean()
 Average_Reading_Score = school_data_complete["reading_score"].mean()
 Percentage_Maths = (((school_data_complete["maths_score"] >= 50).value_counts()[0])/Total_Students)*100

@@ -63,7 +63,7 @@ SS_Average_Maths_Score = school_data_complete.groupby("school_name")["maths_scor
 SS_Average_Reading_Score = school_data_complete.groupby("school_name")["reading_score"].mean()
 SS_Percentage_Maths = (school_data_complete[school_data_complete["maths_score"] >= 50].groupby("school_name")["maths_score"].count()/SS_Total_students)*100
 SS_Percentage_Reading = (school_data_complete[school_data_complete["reading_score"] >= 50].groupby("school_name")["reading_score"].count()/SS_Total_students)*100
-SS_Overall_Passing = (school_data_complete.query("maths_score >= 50" and "reading_score >= 50").groupby("school_name")["maths_score"].count()/SS_Total_students)*100
+SS_Overall_Passing = ((school_data_complete.query("maths_score >= 50").query("reading_score >= 50").groupby("school_name")["maths_score"].count())/SS_Total_students)*100
 
 School_Summary_df = pd.DataFrame({"School Type": SS_School_Type, "Total Students": SS_Total_students, "Total School Budget": SS_Total_School_Budget, "Per Student Budget": SS_Per_Student_Budget,
                                             "Average Maths Score": SS_Average_Maths_Score, "Average Reading Score": SS_Average_Reading_Score, "% Passing Maths": SS_Percentage_Maths, "% Passing Reading": SS_Percentage_Reading,
@@ -79,3 +79,16 @@ School_Summary_df['% Passing Reading'] = School_Summary_df['% Passing Reading'].
 School_Summary_df['% Overall Passing'] = School_Summary_df['% Overall Passing'].map('{:.6f}'.format)
 
 School_Summary_df
+
+#___________________________________________________________________________
+
+Top_Performance_School_df = School_Summary_df.sort_values(["% Overall Passing"], ascending = False).head()
+
+Top_Performance_School_df
+
+#____________________________________________________________________________
+
+
+Bottom_Performance_School_df = School_Summary_df.sort_values(["% Overall Passing"], ascending = True).head()
+
+Bottom_Performance_School_df

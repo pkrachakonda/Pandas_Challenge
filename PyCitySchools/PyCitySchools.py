@@ -69,7 +69,7 @@ School_Summary_df = pd.DataFrame({"School Type": SS_School_Type, "Total Students
                                             "Average Maths Score": SS_Average_Maths_Score, "Average Reading Score": SS_Average_Reading_Score, "% Passing Maths": SS_Percentage_Maths, "% Passing Reading": SS_Percentage_Reading,
                                             "% Overall Passing": SS_Overall_Passing})
 
-
+School_Summary_df.index.name = ''
 School_Summary_df['Total School Budget'] = School_Summary_df['Total School Budget'].map('${:,.2f}'.format)
 School_Summary_df['Per Student Budget'] = School_Summary_df['Per Student Budget'].map('${:,.2f}'.format)
 School_Summary_df['Average Maths Score'] = School_Summary_df['Average Maths Score'].map('{:.6f}'.format)
@@ -80,15 +80,50 @@ School_Summary_df['% Overall Passing'] = School_Summary_df['% Overall Passing'].
 
 School_Summary_df
 
-#___________________________________________________________________________
+#___________________________________________________________
 
 Top_Performance_School_df = School_Summary_df.sort_values(["% Overall Passing"], ascending = False).head()
-
 Top_Performance_School_df
 
-#____________________________________________________________________________
+#___________________________________________________________
 
 
 Bottom_Performance_School_df = School_Summary_df.sort_values(["% Overall Passing"], ascending = True).head()
-
 Bottom_Performance_School_df
+
+#______________________________________________________________________
+
+MYear_9 = school_data_complete.query("year == 9").groupby("school_name")["maths_score"].mean()
+MYear_10 = school_data_complete.query("year == 10").groupby("school_name")["maths_score"].mean()
+MYear_11 = school_data_complete.query("year == 11").groupby("school_name")["maths_score"].mean()
+MYear_12 = school_data_complete.query("year == 12").groupby("school_name")["maths_score"].mean()
+
+Maths_Score_Year_df = pd.DataFrame({"Year 9": MYear_9, "Year 10": MYear_10, "Year 11": MYear_11, "Year 12": MYear_12})
+
+Maths_Score_Year_df.index.name = ''
+Maths_Score_Year_df['Year 9'] = Maths_Score_Year_df['Year 9'].map('{:.6f}'.format)
+Maths_Score_Year_df['Year 10'] = Maths_Score_Year_df['Year 10'].map('{:.6f}'.format)
+Maths_Score_Year_df['Year 11'] = Maths_Score_Year_df['Year 11'].map('{:.6f}'.format)
+Maths_Score_Year_df['Year 12'] = Maths_Score_Year_df['Year 12'].map('{:.6f}'.format)
+
+Maths_Score_Year_df
+
+#______________________________________________________________________
+
+RYear_9 = school_data_complete.query("year == 9").groupby("school_name")["reading_score"].mean()
+RYear_10 = school_data_complete.query("year == 10").groupby("school_name")["reading_score"].mean()
+RYear_11 = school_data_complete.query("year == 11").groupby("school_name")["reading_score"].mean()
+RYear_12 = school_data_complete.query("year == 12").groupby("school_name")["reading_score"].mean()
+
+Reading_Score_Year_df = pd.DataFrame({"Year 9": RYear_9, "Year 10": RYear_10, "Year 11": RYear_11, "Year 12": RYear_12})
+
+Reading_Score_Year_df.index.name = ''
+Reading_Score_Year_df['Year 9'] = Reading_Score_Year_df['Year 9'].map('{:.6f}'.format)
+Reading_Score_Year_df['Year 10'] = Reading_Score_Year_df['Year 10'].map('{:.6f}'.format)
+Reading_Score_Year_df['Year 11'] = Reading_Score_Year_df['Year 11'].map('{:.6f}'.format)
+Reading_Score_Year_df['Year 12'] = Reading_Score_Year_df['Year 12'].map('{:.6f}'.format)
+
+Reading_Score_Year_df
+
+#___________________________________________________________________________
+
